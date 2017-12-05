@@ -62,3 +62,7 @@ And to load it:
 ```go
 client := NewClientFromFile("config.json")
 ```
+
+
+## update 2017-12-05
+Add Support for springcloud eureka
