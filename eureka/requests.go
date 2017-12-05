@@ -120,7 +120,7 @@ func NewInstanceInfo(instanceId, hostName, app, ipAddr, vipAddress string, port 
 		DataCenterInfo: dataCenterInfo,
 		LeaseInfo:      leaseInfo,
 		Metadata:       nil,
-		InstanceId:		instanceId,
+		InstanceId:     instanceId,
 	}
 	stringPort := ""
 	if port != 80 && port != 443 {
