@@ -15,12 +15,15 @@ func main() {
 		"http://127.0.0.1:8761/eureka", //From a spring boot based eureka server
 		// add others servers here
 	})
-	instance := eureka.NewInstanceInfo("test.com", "test", "69.172.200.235", 80, 30, false) //Create a new instance to register
-	instance.Metadata = &eureka.MetaData{
-		Map: make(map[string]string),
-	}
-	instance.Metadata.Map["foo"] = "bar" //add metadata for example
-	client.RegisterInstance("myapp", instance) // Register new instance in your eureka(s)
+	appName:="myapp"
+	port:=8080
+	instanceId := fmt.Sprintf("%s:%s:%d", getIp(), appName, port)
+    instanceRegistered = eureka.NewInstanceInfo(instanceId, getIp(), appName, getIp(), appName, port, 30, false) //Create a new instance to register
+    instanceRegistered.Metadata = &eureka.MetaData{
+        Map: make(map[string]string),
+    }
+    client.RegisterInstance(appName, instanceRegistered) // Register new instance in your eureka(s)
+
 	applications, _ := client.GetApplications() // Retrieves all applications from eureka server(s)
 	client.GetApplication(instance.App) // retrieve the application "test"
 	client.GetInstance(instance.App, instance.HostName) // retrieve the instance from "test.com" inside "test"" app
