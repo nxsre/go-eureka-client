@@ -37,7 +37,7 @@ func sendHeartbeat(appName string, instanceId string) {
 	}()
 }
 
-func close() {
+func unregisterInstance() {
 	if client != nil {
 		client.UnregisterInstance(instanceRegistered.App, instanceRegistered.InstanceId)
 		client = nil
@@ -54,7 +54,7 @@ func registerSignal() {
 
 		logger.Info("got signal=%s, unregister eureka ", sig.String())
 
-		close()
+		unregisterInstance()
 
 		os.Exit(0)
 	}()
