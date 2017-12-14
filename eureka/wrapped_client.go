@@ -11,10 +11,7 @@ import (
 var client *Client
 var instanceRegistered *InstanceInfo
 
-func Start(appName string, port int) {
-	client = NewClient([]string{
-		"http://eureka-primary.futures-dev.98.cn/eureka", //From a spring boot based eureka server
-	})
+func Start(appName string, port int, machines []string) {
 
 	instanceId := fmt.Sprintf("%s:%s:%d", GetLocalAddress(), appName, port)
 	instanceRegistered = NewInstanceInfo(instanceId, GetLocalAddress(), appName, GetLocalAddress(), appName, port, 30, false) //Create a new instance to register
@@ -22,6 +19,7 @@ func Start(appName string, port int) {
 		Map: make(map[string]string),
 	}
 
+	client = NewClient(machines)
 	client.RegisterInstance(appName, instanceRegistered) // Register new instance in your eureka(s)
 
 	go sendHeartbeat(appName, instanceId)
