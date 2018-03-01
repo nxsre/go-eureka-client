@@ -30,7 +30,11 @@ func Start(appName string, port int, machines []string) {
 func sendHeartbeat(appName string, instanceId string) {
 	func() {
 		for {
-			client.SendHeartbeat(appName, instanceId)
+			err := client.SendHeartbeat(appName, instanceId)
+			if err != nil {
+				logger.Warning("Send HeartBeat failed for appname=%s,instanceid=%s,err=%v,doing register again", appName, instanceId, err)
+				client.RegisterInstance(appName, instanceRegistered)
+			}
 			time.Sleep(time.Second * 30)
 			logger.Info("send heartbeat for appname=%s,instanceid=%s", appName, instanceId)
 		}
