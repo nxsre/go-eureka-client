@@ -2,6 +2,7 @@ package eureka
 
 import (
 	"fmt"
+	"github.com/sirupsen/logrus"
 	"os"
 	"os/signal"
 	"syscall"
@@ -32,11 +33,11 @@ func sendHeartbeat(appName string, instanceId string) {
 		for {
 			err := client.SendHeartbeat(appName, instanceId)
 			if err != nil {
-				logger.Warning("Send HeartBeat failed for appname=%s,instanceid=%s,err=%v,doing register again", appName, instanceId, err)
+				logrus.Warning("Send HeartBeat failed for appname=%s,instanceid=%s,err=%v,doing register again", appName, instanceId, err)
 				client.RegisterInstance(appName, instanceRegistered)
 			}
 			time.Sleep(time.Second * 30)
-			logger.Info("send heartbeat for appname=%s,instanceid=%s", appName, instanceId)
+			logrus.Info("send heartbeat for appname=%s,instanceid=%s", appName, instanceId)
 		}
 	}()
 }
@@ -56,7 +57,7 @@ func registerSignal() {
 	go func() {
 		sig := <-signals
 
-		logger.Info("got signal=%s, unregister eureka ", sig.String())
+		logrus.Info("got signal=%s, unregister eureka ", sig.String())
 
 		unregisterInstance()
 
