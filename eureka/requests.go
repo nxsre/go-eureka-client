@@ -130,13 +130,13 @@ func NewInstanceInfo(instanceId, hostName, app, ipAddr, vipAddress string, port 
 	var protocol string = "http"
 	if isSsl {
 		protocol = "https"
-		instanceInfo.SecureVipAddress = protocol + "://" + hostName + stringPort
+		instanceInfo.SecureVipAddress = protocol + "://" + vipAddress + stringPort
 		instanceInfo.SecurePort = &Port{
 			Port:    port,
 			Enabled: true,
 		}
 	} else {
-		instanceInfo.VipAddress = protocol + "://" + hostName + stringPort
+		instanceInfo.VipAddress = protocol + "://" + vipAddress + stringPort
 		instanceInfo.Port = &Port{
 			Port:    port,
 			Enabled: true,
