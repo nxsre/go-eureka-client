@@ -104,7 +104,7 @@ func NewRawRequest(method, relativePath string, body []byte, cancel <-chan bool)
 	}
 }
 
-func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *InstanceInfo {
+func NewInstanceInfo(instanceId, hostName, app, ipAddr, vipAddress string, port int, ttl uint, isSsl bool) *InstanceInfo {
 	dataCenterInfo := &DataCenterInfo{
 		Name:     "MyOwn",
 		Class:    "com.netflix.appinfo.InstanceInfo$DefaultDataCenterInfo",
@@ -116,11 +116,12 @@ func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *
 	instanceInfo := &InstanceInfo{
 		HostName:       hostName,
 		App:            app,
-		IpAddr:         ip,
+		IpAddr:         ipAddr,
 		Status:         UP,
 		DataCenterInfo: dataCenterInfo,
 		LeaseInfo:      leaseInfo,
 		Metadata:       nil,
+		InstanceID:     instanceId,
 	}
 	stringPort := ""
 	if port != 80 && port != 443 {
@@ -142,6 +143,7 @@ func NewInstanceInfo(hostName, app, ip string, port int, ttl uint, isSsl bool) *
 		}
 	}
 	instanceInfo.StatusPageUrl = protocol + "://" + hostName + stringPort + "/info"
+	instanceInfo.HealthCheckUrl = protocol + "://" + hostName + stringPort + "/health"
 	return instanceInfo
 }
 
