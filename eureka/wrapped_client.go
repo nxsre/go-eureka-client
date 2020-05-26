@@ -44,7 +44,7 @@ func sendHeartbeat(appName string, instanceId string) {
 
 func unregisterInstance() {
 	if client != nil {
-		client.UnregisterInstance(instanceRegistered.App, instanceRegistered.InstanceId)
+		client.UnregisterInstance(instanceRegistered.App, instanceRegistered.InstanceID)
 		client = nil
 	}
 }
